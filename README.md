@@ -1,72 +1,32 @@
 # 🏙️ Philly Civic AI
 
-> **Multi-persona AI system for Philadelphia city planning, regenerative design & community development** — Germantown, South Philly, CREJ, and beyond.
+> *Multi-persona AI system for Philadelphia city planning, regenerative design & community development.*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Status: Active](https://img.shields.io/badge/Status-Active-brightgreen)](#)
-[![Philadelphia](https://img.shields.io/badge/City-Philadelphia-blue)](#)
+A civic technology project building AI agents tuned to the needs and contexts of Philadelphia neighborhoods — Germantown, South Philly, CREJ, and beyond. Each persona specializes in a domain: community land use, regenerative infrastructure, housing policy, cultural preservation, and participatory design.
 
----
+## What It Does
 
-## 🌱 What Is This?
+- **Multi-Persona AI Agents** — Distinct AI personas tuned for different Philadelphia community contexts and planning needs
+- **Regenerative Design Focus** — Integrates principles of ecological restoration, circular economy, and community wealth-building
+- **Neighborhood-Specific Context** — Grounded in the specific histories, demographics, and challenges of Philly neighborhoods
+- **Community Development Tool** — Designed to support residents, planners, and organizers rather than replace them
 
-Philly Civic AI is an open-source, community-first AI persona system built to support Philadelphia's most pressing planning challenges — from Germantown corridor revitalization to South Philly community land trust development. It leverages structured AI personas, grant-aware prompting, and regenerative systems thinking to empower neighborhood organizers, city planners, and creative practitioners.
+## Use Cases
 
-This repo is the **planning, documentation, and prompt engineering hub** for the system — not a deployed app, but a living design document and toolkit.
+- Drafting community benefit agreements
+- Analyzing zoning proposals through a regenerative lens
+- Generating participatory design prompts for community meetings
+- Translating policy documents into plain-language summaries
+- Supporting CREJ (Community Real Estate Justice) initiatives
 
----
+## Status
 
-## 🗺️ Personas
+Active development — persona architecture and knowledge base in progress.
 
-| Persona | Focus | Target Audience |
-|---|---|---|
-| **Germaine** | Germantown corridor & history | Organizers, historians, CREJ applicants |
-| **Sofia** | South Philly community land trust | Residents, housing advocates |
-| **Marcus** | EDM / creative economy | Artists, venue operators, Beats & Boxes |
-| **Vera** | Regenerative urban agriculture | Farmers, PCF grantees, school programs |
-| **Dominic** | Policy & civic tech | City council, civic hackers |
+## Tags
 
----
-
-## 📁 Structure
-
-```
-philly-civic-ai/
-├── personas/           # Each AI persona's system prompt + context docs
-├── prompts/            # Reusable prompt templates by use case
-├── grant-toolkit/      # CREJ, PCF, Art Works, William Penn templates
-├── docs/               # Research, maps, neighborhood data
-│   └── showcase/       # Case studies and example outputs
-├── scripts/            # Utility scripts for prompt building
-└── README.md
-```
+`civic-tech` · `philadelphia` · `regenerative-design` · `community-development` · `ai-agents` · `urban-planning` · `germantown` · `south-philly`
 
 ---
 
-## 🏛️ Grant Programs Covered
-
-- **CREJ** — Community Revitalization & Empowerment Justice
-- **PCF** — Philadelphia Cultural Fund
-- **Art Works** — NEA direct grants
-- **William Penn Foundation** — Arts & culture + civic programs
-- **Germantown Community Programs** — Local neighborhood grants
-
----
-
-## 🚀 Getting Started
-
-```bash
-git clone https://github.com/qt314wink/philly-civic-ai
-cd philly-civic-ai
-# Open personas/germaine.md to start with the Germantown persona
-```
-
----
-
-## 🤝 Contributing
-
-This project is community-first. If you work in Philadelphia civic tech, housing, arts, or regenerative systems — PRs, issues, and discussions are welcome.
-
----
-
-*Built in Philadelphia. Rooted in community.*
+*Part of the qt314wink creative technologist portfolio — Philadelphia, 2026.*
