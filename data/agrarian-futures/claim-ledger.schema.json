@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://philly-civic-ai.example/schemas/agrarian-futures-claim-ledger.schema.json",
+  "title": "Agrarian Futures Claim/Evidence Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "claims"],
+  "properties": {
+    "version": { "type": "string", "const": "v0" },
+    "claims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/claim" }
+    }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "claim", "domain", "evidence_state", "source_required", "jurisdiction", "date_scope", "units", "method", "uncertainty", "review_status", "article_id", "source_title", "source_url", "source_date", "source_locator"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^AF-(ECO|MRV)-[0-9]{3}$" },
+        "claim": { "type": "string", "minLength": 1 },
+        "domain": { "type": "string", "minLength": 1 },
+        "evidence_state": { "enum": ["verified", "sourced_unreviewed", "source_required", "hypothesis", "proposal", "simulated", "narrative"] },
+        "source_required": { "type": "boolean" },
+        "jurisdiction": { "type": "string" },
+        "date_scope": { "type": "string" },
+        "units": { "type": "string" },
+        "method": { "type": "string" },
+        "uncertainty": { "type": "string" },
+        "review_status": { "type": "string" },
+        "article_id": { "type": "integer", "enum": [0, 3] },
+        "source_title": { "type": "string" },
+        "source_url": { "type": "string" },
+        "source_date": { "type": "string" },
+        "source_locator": { "type": "string" }
+      }
+    }
+  }
+}

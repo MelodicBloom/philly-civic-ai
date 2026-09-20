@@ -12,7 +12,8 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "lint": "eslint . --max-warnings=0",
-    "validate": "npm run lint && npm run build",
+    "claims:validate": "node scripts/validate-claim-ledger.mjs",
+    "validate": "npm run claims:validate && npm run lint && npm run build",
     "visual:audit": "node scripts/visual-audit.mjs",
     "termux:validate": "bash scripts/termux-visual-validate.sh"
   },
