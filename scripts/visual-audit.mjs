@@ -35,6 +35,14 @@ function resolveChromium() {
     }
   }
 
+  try {
+    const playwrightBinary = chromium.executablePath();
+    accessSync(playwrightBinary, constants.X_OK);
+    return playwrightBinary;
+  } catch {
+    // Continue to the actionable error.
+  }
+
   throw new Error('Chromium was not found. In Termux run: pkg install x11-repo chromium');
 }
 
