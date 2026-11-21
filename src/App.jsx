@@ -45,6 +45,15 @@ export default function App() {
     window.history.replaceState(null, '', `#${activeTab}`);
   }, [activeTab]);
 
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = window.location.hash.slice(1);
+      if (tabs.some((tab) => tab.id === next)) setActiveTab(next);
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
   const navigate = (tab) => {
     setActiveTab(tab);
     setIsMenuOpen(false);
