@@ -110,7 +110,9 @@ for (const viewport of viewports) {
     await page.screenshot({ path: screenshot, fullPage: true });
 
     const failures = [];
-    if (!response?.ok()) failures.push(`HTTP ${response?.status() ?? 'no response'}`);
+    // A hash-only navigation reuses the document, so Playwright returns null.
+    if (response && !response.ok()) failures.push(`HTTP ${response.status()}`);
+    if (!page.url().endsWith(`#${route}`)) failures.push(`unexpected route: ${page.url()}`);
     if (!metrics.mainVisible) failures.push('main content is not visible');
     if (metrics.rootTextLength < 200) failures.push('root content appears incomplete');
     if (metrics.horizontalOverflow > 4 && route !== 'diagram') failures.push(`horizontal overflow: ${metrics.horizontalOverflow}px`);
