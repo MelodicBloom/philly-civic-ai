@@ -56,3 +56,26 @@ jobs:
 
       - name: Lint and build
         run: npm run validate
+
+      - name: Install Chromium for visual audit
+        run: npx playwright install --with-deps chromium
+
+      - name: Audit story and existing views
+        shell: bash
+        run: |
+          npm run preview -- --host 127.0.0.1 > preview.log 2>&1 &
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run visual:audit
+
+      - name: Save audit screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agrarian-visual-audit
+          path: |
+            visual-artifacts/
+            preview.log
+          if-no-files-found: ignore
