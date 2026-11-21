@@ -58,8 +58,9 @@ const browser = await chromium.launch({
   ],
 });
 
-const routes = ['sitemap', 'article', 'diagram', 'interactive'];
+const routes = ['story', 'sitemap', 'article', 'diagram', 'interactive'];
 const viewports = [
+  { name: 'narrow-mobile', width: 320, height: 720 },
   { name: 'mobile', width: 390, height: 844 },
   { name: 'tablet', width: 820, height: 1180 },
   { name: 'desktop', width: 1440, height: 1200 },
@@ -106,6 +107,16 @@ for (const viewport of viewports) {
     if (metrics.rootTextLength < 200) failures.push('root content appears incomplete');
     if (metrics.horizontalOverflow > 4 && route !== 'diagram') failures.push(`horizontal overflow: ${metrics.horizontalOverflow}px`);
     if (!metrics.heading) failures.push('missing primary heading');
+
+    if (route === 'story') {
+      const story = page.getByTestId('field-to-city-story');
+      if (!(await story.isVisible())) failures.push('story is not visible');
+      await page.getByRole('button', { name: 'Aggregate stability' }).click();
+      if (!(await page.getByText('A method, not a local result').isVisible())) failures.push('evidence note is missing');
+      await page.getByRole('button', { name: 'Show B' }).click();
+      if ((await page.locator('#af-reveal').inputValue()) !== '100') failures.push('scenario control failed');
+      await page.getByRole('button', { name: 'Compare equally' }).click();
+    }
 
     findings.push({
       viewport: viewport.name,
