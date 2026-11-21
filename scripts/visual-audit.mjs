@@ -89,7 +89,10 @@ for (const viewport of viewports) {
   for (const route of routes) {
     const routeDir = path.join(outputRoot, viewport.name);
     await mkdir(routeDir, { recursive: true });
-    const response = await page.goto(`${url}/#${route}`, { waitUntil: 'networkidle', timeout: 45_000 });
+    let response = await page.goto(`${url}/#${route}`, { waitUntil: 'networkidle', timeout: 45_000 });
+    // Force a document load when only the fragment changed, so the route audit
+    // cannot accidentally screenshot the preceding React view for every hash.
+    if (!response) response = await page.reload({ waitUntil: 'networkidle', timeout: 45_000 });
     await page.waitForTimeout(350);
 
     const metrics = await page.evaluate(() => {
@@ -117,6 +120,9 @@ for (const viewport of viewports) {
     if (metrics.rootTextLength < 200) failures.push('root content appears incomplete');
     if (metrics.horizontalOverflow > 4 && route !== 'diagram') failures.push(`horizontal overflow: ${metrics.horizontalOverflow}px`);
     if (!metrics.heading) failures.push('missing primary heading');
+    const routeMarkers = { sitemap: 'ecosystem-hub', diagram: 'blueprint-diagram', interactive: 'telemetry-map' };
+    if (routeMarkers[route] && !(await page.getByTestId(routeMarkers[route]).isVisible())) failures.push(`${route} content is missing`);
+    if (route === 'article' && !(await page.locator('article').isVisible())) failures.push('article content is missing');
 
     if (route === 'story') {
       const story = page.getByTestId('field-to-city-story');
