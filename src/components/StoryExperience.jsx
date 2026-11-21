@@ -66,9 +66,10 @@ function SoilGraphic({ selected }) {
 function WaterGraphic({ reveal }) {
   return (
     <div className="af-water-graphic" role="img" aria-label={`Illustrative comparison. Condition A is ${100 - reveal}% visible and condition B is ${reveal}% visible. No measured runoff or infiltration amounts are shown.`}>
-      <div className="af-water-layer af-water-layer--a"><div className="af-rain" aria-hidden="true">··  ··  ··  ··  ··</div><div className="af-water-layer__land"/><span className="af-water-layer__path af-water-layer__path--runoff" aria-hidden="true"/><span className="af-water-layer__caption">A · exposed surface<br/><small>Runoff pathway illustrated</small></span></div>
-      <div className="af-water-layer af-water-layer--b" style={{ clipPath: `inset(0 ${100 - reveal}% 0 0)` }}><div className="af-rain" aria-hidden="true">··  ··  ··  ··  ··</div><div className="af-water-layer__land"/><span className="af-water-layer__path af-water-layer__path--infiltrate" aria-hidden="true"/><span className="af-water-layer__caption">B · covered surface<br/><small>Infiltration pathway illustrated</small></span></div>
+      <div className="af-water-layer af-water-layer--a"><div className="af-rain" aria-hidden="true">··  ··  ··  ··  ··</div><div className="af-water-layer__land"/><span className="af-water-layer__path af-water-layer__path--runoff" aria-hidden="true"/></div>
+      <div className="af-water-layer af-water-layer--b" style={{ clipPath: `inset(0 ${100 - reveal}% 0 0)` }}><div className="af-rain" aria-hidden="true">··  ··  ··  ··  ··</div><div className="af-water-layer__land"/><span className="af-water-layer__path af-water-layer__path--infiltrate" aria-hidden="true"/></div>
       <div className="af-water-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><span>◀ ▶</span></div>
+      <div className="af-water-key"><span>A · exposed surface</span><span>B · covered surface</span></div>
     </div>
   );
 }
