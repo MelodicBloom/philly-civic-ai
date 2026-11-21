@@ -67,9 +67,8 @@
 .af-water-layer__path { position:absolute; top:56%; left:10%; width:72%; height:32%; border:6px dashed #3885aa; border-right:0; border-bottom:0; border-radius:40% 0 0 0; }
 .af-water-layer__path--runoff { top:47%; left:32%; transform:rotate(14deg); border-color:#367e9a; }
 .af-water-layer__path--infiltrate { top:58%; left:47%; width:26%; height:30%; transform:rotate(78deg); border-color:#62a6ba; }
-.af-water-layer__caption { position:absolute; left:1rem; bottom:1rem; padding:.55rem .7rem; background:#f8f3e9ed; color:#203e38; font:700 .83rem/1.45 system-ui,sans-serif; }
-.af-water-layer__caption small { font-weight:500; }
-.af-water-layer--b .af-water-layer__caption { left:auto; right:1rem; text-align:right; }
+.af-water-key { position:absolute; left:0; right:0; bottom:0; display:grid; grid-template-columns:1fr 1fr; gap:.2rem; padding:.5rem; background:#f8f3e9ed; color:#203e38; font:700 .78rem/1.3 system-ui,sans-serif; }
+.af-water-key span:last-child { text-align:right; }
 .af-water-divider { position:absolute; top:0; bottom:0; width:3px; background:#fff8ed; box-shadow:0 0 0 1px #315363; }
 .af-water-divider span { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); display:grid; place-items:center; width:42px; height:42px; border-radius:50%; background:#f8f3e9; color:#294947; font:700 .75rem system-ui,sans-serif; }
 .af-comparison { margin-top:1.2rem; padding:1rem; background:#e9e4d7; font:700 .83rem system-ui,sans-serif; }
@@ -84,5 +83,5 @@
 .af-actions__links { display:flex; flex-direction:column; align-items:stretch; gap:.75rem; }.af-actions .af-button--primary { color:var(--forest); background:#f8f2e6; }.af-actions .af-button--secondary { background:transparent; border-color:#d9e4d7; color:white; }
 .af-text-link { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; min-height:44px; color:#e4eecf; font:700 .83rem system-ui,sans-serif; text-decoration:underline; }
 @media (max-width:800px) { .af-story__rail-title { display:none; }.af-scene__grid,.af-actions { grid-template-columns:1fr; }.af-evidence { max-width:none; }.af-scene { min-height:auto; }.af-story__rail { margin:0 -1.5rem; padding-left:1.5rem; padding-right:1.5rem; } }
-@media (max-width:480px) { .af-scene--hero h1 { font-size:clamp(2.8rem,12vw,4rem); }.af-scene__header h2 { font-size:2.6rem; }.af-trace__labels { left:.3rem; right:.3rem; bottom:.4rem; }.af-trace__labels span { font-size:.62rem; }.af-trace__labels svg { width:19px; height:19px; }.af-water-layer__caption { font-size:.68rem; left:.35rem; bottom:.35rem; padding:.3rem; }.af-water-layer--b .af-water-layer__caption { right:.35rem; }.af-comparison__buttons button { font-size:.74rem; }.af-actions { padding:1.4rem; } }
+@media (max-width:480px) { .af-scene--hero h1 { font-size:clamp(2.8rem,12vw,4rem); }.af-scene__header h2 { font-size:2.6rem; }.af-trace__labels { left:.3rem; right:.3rem; bottom:.4rem; }.af-trace__labels span { font-size:.62rem; }.af-trace__labels svg { width:19px; height:19px; }.af-water-key { font-size:.65rem; }.af-comparison__buttons button { font-size:.74rem; }.af-actions { padding:1.4rem; } }
 @media (prefers-reduced-motion:reduce) { .af-story *, .af-story *::before, .af-story *::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; } }
