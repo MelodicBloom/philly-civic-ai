@@ -23,9 +23,11 @@ import {
 import BlueprintDiagram from './components/BlueprintDiagram.jsx';
 import FlipCard from './components/FlipCard.jsx';
 import TopographyMap from './components/TopographyMap.jsx';
+import StoryExperience from './components/StoryExperience.jsx';
 import { articlesData } from './data/articles.jsx';
 
 const tabs = [
+  { id: 'story', label: 'Field to City', icon: Leaf },
   { id: 'sitemap', label: 'Ecosystem Hub', icon: Compass },
   { id: 'article', label: 'The Editorial', icon: BookOpen },
   { id: 'diagram', label: 'Blueprint Diagram', icon: Workflow },
@@ -33,7 +35,7 @@ const tabs = [
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState(() => window.location.hash.replace('#', '') || 'sitemap');
+  const [activeTab, setActiveTab] = useState(() => window.location.hash.replace('#', '') || 'story');
   const [activeArticleId, setActiveArticleId] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const activeArticle = articlesData[activeArticleId];
@@ -42,6 +44,15 @@ export default function App() {
   useEffect(() => {
     window.history.replaceState(null, '', `#${activeTab}`);
   }, [activeTab]);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = window.location.hash.slice(1);
+      if (tabs.some((tab) => tab.id === next)) setActiveTab(next);
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   const navigate = (tab) => {
     setActiveTab(tab);
@@ -58,7 +69,7 @@ export default function App() {
     <div className="min-h-screen bg-[#F9F7F2] font-sans text-slate-800 selection:bg-emerald-200 selection:text-emerald-900">
       <nav className="sticky top-0 z-50 border-b border-stone-200 bg-[#F9F7F2]/95 shadow-sm backdrop-blur" aria-label="Primary navigation">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <button type="button" onClick={() => navigate('sitemap')} className="flex items-center font-serif text-xl font-bold tracking-tight text-emerald-900">
+          <button type="button" onClick={() => navigate('story')} className="flex items-center font-serif text-xl font-bold tracking-tight text-emerald-900">
             AGRARIAN <span className="ml-1 text-emerald-600">FUTURES</span>
           </button>
 
@@ -100,6 +111,7 @@ export default function App() {
       </nav>
 
       <main id="main-content" className="mx-auto max-w-6xl px-6 py-12">
+        {activeTab === 'story' && <StoryExperience />}
         {activeTab === 'sitemap' && (
           <div className="animate-in fade-in duration-500" data-testid="ecosystem-hub">
             <header className="mx-auto mb-16 max-w-3xl text-center">

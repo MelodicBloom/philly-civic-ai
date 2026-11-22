@@ -35,6 +35,14 @@ function resolveChromium() {
     }
   }
 
+  try {
+    const playwrightBinary = chromium.executablePath();
+    accessSync(playwrightBinary, constants.X_OK);
+    return playwrightBinary;
+  } catch {
+    // Continue to the actionable error.
+  }
+
   throw new Error('Chromium was not found. In Termux run: pkg install x11-repo chromium');
 }
 
@@ -58,8 +66,9 @@ const browser = await chromium.launch({
   ],
 });
 
-const routes = ['sitemap', 'article', 'diagram', 'interactive'];
+const routes = ['story', 'sitemap', 'article', 'diagram', 'interactive'];
 const viewports = [
+  { name: 'narrow-mobile', width: 320, height: 720 },
   { name: 'mobile', width: 390, height: 844 },
   { name: 'tablet', width: 820, height: 1180 },
   { name: 'desktop', width: 1440, height: 1200 },
@@ -80,7 +89,10 @@ for (const viewport of viewports) {
   for (const route of routes) {
     const routeDir = path.join(outputRoot, viewport.name);
     await mkdir(routeDir, { recursive: true });
-    const response = await page.goto(`${url}/#${route}`, { waitUntil: 'networkidle', timeout: 45_000 });
+    let response = await page.goto(`${url}/#${route}`, { waitUntil: 'networkidle', timeout: 45_000 });
+    // Force a document load when only the fragment changed, so the route audit
+    // cannot accidentally screenshot the preceding React view for every hash.
+    if (!response) response = await page.reload({ waitUntil: 'networkidle', timeout: 45_000 });
     await page.waitForTimeout(350);
 
     const metrics = await page.evaluate(() => {
@@ -101,11 +113,26 @@ for (const viewport of viewports) {
     await page.screenshot({ path: screenshot, fullPage: true });
 
     const failures = [];
-    if (!response?.ok()) failures.push(`HTTP ${response?.status() ?? 'no response'}`);
+    // A hash-only navigation reuses the document, so Playwright returns null.
+    if (response && !response.ok()) failures.push(`HTTP ${response.status()}`);
+    if (!page.url().endsWith(`#${route}`)) failures.push(`unexpected route: ${page.url()}`);
     if (!metrics.mainVisible) failures.push('main content is not visible');
     if (metrics.rootTextLength < 200) failures.push('root content appears incomplete');
     if (metrics.horizontalOverflow > 4 && route !== 'diagram') failures.push(`horizontal overflow: ${metrics.horizontalOverflow}px`);
     if (!metrics.heading) failures.push('missing primary heading');
+    const routeMarkers = { sitemap: 'ecosystem-hub', diagram: 'blueprint-diagram', interactive: 'telemetry-map' };
+    if (routeMarkers[route] && !(await page.getByTestId(routeMarkers[route]).isVisible())) failures.push(`${route} content is missing`);
+    if (route === 'article' && !(await page.locator('article').isVisible())) failures.push('article content is missing');
+
+    if (route === 'story') {
+      const story = page.getByTestId('field-to-city-story');
+      if (!(await story.isVisible())) failures.push('story is not visible');
+      await page.getByRole('button', { name: 'Aggregate stability' }).click();
+      if (!(await page.getByText('A method, not a local result').isVisible())) failures.push('evidence note is missing');
+      await page.getByRole('button', { name: 'Show B' }).click();
+      if ((await page.locator('#af-reveal').inputValue()) !== '100') failures.push('scenario control failed');
+      await page.getByRole('button', { name: 'Compare equally' }).click();
+    }
 
     findings.push({
       viewport: viewport.name,
